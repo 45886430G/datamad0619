@@ -1,4 +1,4 @@
-#Desafío 
+-- Desafío 1
 
 USE publications;
 
@@ -18,7 +18,7 @@ ON titleauthor.title_id = titles.title_id
 INNER JOIN publishers
 ON titles.pub_id = publishers.pub_id;
 
-#Desafío 2
+-- Desafío 2
 
 
 
@@ -41,10 +41,10 @@ ON titleauthor.title_id = titles.title_id
 INNER JOIN publishers
 ON titles.pub_id = publishers.pub_id
 
-GROUP BY titles.title_id, authors.au_id
+GROUP BY authors.au_id
 ORDER BY authors.au_id DESC;
 
-#Desafío 3
+-- Desafío 3
 
 SELECT authors.au_id AS 'AUTHORS ID',
 	authors.au_lname AS 'LAST NAME',
@@ -62,9 +62,24 @@ ON titles.pub_id = publishers.pub_id
 INNER JOIN sales
 ON titleauthor.title_id = sales.title_id
 
-GROUP BY titles.title_id, authors.au_id
+GROUP BY authors.au_id
 ORDER BY TOTAL DESC
-LIMIT 3
+LIMIT 3;
 
-#Desafío 4
+-- Desafío 4
 
+SELECT authors.au_id AS 'AUTHORS ID',
+	authors.au_lname AS 'LAST NAME',
+	authors.au_fname AS 'FIRST NAME',
+    
+COALESCE (SUM(sales.qty),0) AS 'TOTAL SALES'
+
+FROM authors 
+LEFT JOIN titleauthor
+ON authors.au_id = titleauthor.au_id
+LEFT JOIN sales
+ON titleauthor.title_id = sales.title_id
+
+GROUP BY authors.au_id
+ORDER BY SUM(sales.qty) DESC
+LIMIT 23;
